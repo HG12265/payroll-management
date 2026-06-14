@@ -31,6 +31,7 @@ export default function AdminAttendance() {
   const [loading, setLoading] = useState(true);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [day, setDay] = useState('');
   const [stats, setStats] = useState({ total: 0, present: 0, absent: 0 });
 
   // Dialog & Form States
@@ -65,8 +66,10 @@ export default function AdminAttendance() {
   const fetchRecords = async () => {
     setLoading(true);
     try {
+      const params = { month, year };
+      if (day) params.day = day;
       const [recRes, dashRes] = await Promise.all([
-        attendanceAPI.list({ month, year }),
+        attendanceAPI.list(params),
         dashboardAPI.admin().catch(() => ({ data: {} }))
       ]);
       setRecords(recRes.data.results || recRes.data);
@@ -82,7 +85,7 @@ export default function AdminAttendance() {
     }
   };
 
-  useEffect(() => { fetchRecords(); }, [month, year]);
+  useEffect(() => { fetchRecords(); }, [month, year, day]);
 
   const handleSeedMockData = async () => {
     if (!window.confirm('Are you sure you want to generate 30 days of mock attendance data for all registered employees? (Sundays and existing dates will be skipped)')) {
@@ -305,8 +308,17 @@ export default function AdminAttendance() {
             {[2024, 2025, 2026, 2027].map(y => <MenuItem key={y} value={y}>{y}</MenuItem>)}
           </Select>
         </FormControl>
+        <FormControl size="small" sx={{ minWidth: 100 }}>
+          <InputLabel>Day</InputLabel>
+          <Select id="att-day" value={day} label="Day" onChange={(e) => setDay(e.target.value)}>
+            <MenuItem value="">All Days</MenuItem>
+            {Array.from({ length: new Date(year, month, 0).getDate() }, (_, i) => i + 1).map(d => (
+              <MenuItem key={d} value={d}>{d}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Typography variant="caption" color="text.secondary">
-          Showing {records.length} records for {months[month - 1]} {year}
+          Showing {records.length} records for {day ? `${day} ` : ''}{months[month - 1]} {year}
         </Typography>
       </Box>
 

@@ -221,12 +221,15 @@ class AttendanceViewSet(viewsets.ModelViewSet):
             emp_id = self.request.query_params.get('employee_id')
             month = self.request.query_params.get('month')
             year = self.request.query_params.get('year')
+            day = self.request.query_params.get('day')
             if emp_id:
                 qs = qs.filter(employee_id=emp_id)
             if month:
                 qs = qs.filter(attendance_date__month=month)
             if year:
                 qs = qs.filter(attendance_date__year=year)
+            if day:
+                qs = qs.filter(attendance_date__day=day)
             return qs
         return qs.filter(employee__user=user)
 
