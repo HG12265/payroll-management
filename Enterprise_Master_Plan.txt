@@ -1,0 +1,607 @@
+
+STAFF PAYROLL MANAGEMENT SYSTEM
+ENTERPRISE ARCHITECTURE MASTER PLAN
+
+====================================================
+1. PROJECT VISION
+====================================================
+
+Build a production-ready payroll management platform using:
+
+Frontend:
+- React
+- Vite
+- React Router
+- Axios
+- Material UI
+
+Backend:
+- Python
+- Django REST Framework
+
+Database:
+- MySQL
+
+Hosting:
+- Frontend -> Netlify
+- Backend -> Render
+
+Goal:
+Automate employee management, attendance, leave, payroll,
+salary calculation, payslip generation, email delivery,
+reporting, dashboard analytics and future expansion.
+
+====================================================
+2. USER ROLES
+====================================================
+
+ADMIN
+
+Permissions:
+- Full system control
+- Create departments
+- Create employees
+- Manage attendance
+- Approve leave
+- Configure salary rules
+- Process payroll
+- Generate payslips
+- Send emails
+- View reports
+- Manage settings
+
+EMPLOYEE
+
+Permissions:
+- Login
+- View profile
+- Mark attendance
+- Apply leave
+- View leave status
+- View payroll
+- Download payslip
+
+====================================================
+3. DJANGO APP STRUCTURE
+====================================================
+
+accounts
+departments
+employees
+attendance
+leave_management
+payroll
+payslips
+notifications
+reports
+dashboard
+settings
+audit_logs
+
+====================================================
+4. REACT PAGE STRUCTURE
+====================================================
+
+/login
+
+/admin/dashboard
+/admin/departments
+/admin/employees
+/admin/attendance
+/admin/leave
+/admin/payroll
+/admin/payslips
+/admin/reports
+/admin/settings
+
+/employee/dashboard
+/employee/profile
+/employee/attendance
+/employee/leave
+/employee/payroll
+/employee/payslips
+
+====================================================
+5. DATABASE MASTER DESIGN
+====================================================
+
+DEPARTMENT
+
+id
+department_code
+department_name
+description
+status
+created_at
+
+EMPLOYEE
+
+id
+employee_code
+first_name
+last_name
+email
+mobile
+password
+department_id
+designation
+joining_date
+employment_status
+basic_salary
+
+ATTENDANCE
+
+id
+employee_id
+attendance_date
+check_in_time
+check_out_time
+working_hours
+attendance_status
+
+LEAVE
+
+id
+employee_id
+leave_type
+from_date
+to_date
+reason
+status
+approved_by
+
+PAYROLL
+
+id
+employee_id
+month
+year
+gross_salary
+deductions
+net_salary
+status
+
+PAYSLIP
+
+id
+payroll_id
+payslip_number
+pdf_path
+generated_at
+
+====================================================
+6. EMPLOYEE MANAGEMENT FLOW
+====================================================
+
+Admin
+-> Create Employee
+
+System
+-> Generate Employee Code
+
+System
+-> Create Login
+
+Employee
+-> Login
+
+Employee
+-> Access Dashboard
+
+====================================================
+7. ATTENDANCE MANAGEMENT
+====================================================
+
+Attendance Methods
+
+1. QR Attendance
+2. Manual Attendance
+
+Future:
+3. GPS
+4. Biometric
+
+====================================================
+8. QR ATTENDANCE ENGINE
+====================================================
+
+Admin
+-> Generate QR
+
+System Creates
+
+session_id
+token
+expiry_time
+
+Rules
+
+Single Active QR
+1 Minute Expiry
+Auto Refresh
+No Reuse
+
+CHECK IN
+
+Employee
+-> Scan QR
+-> Validate
+-> Save In Time
+
+CHECK OUT
+
+Employee
+-> Scan QR
+-> Validate
+-> Save Out Time
+
+====================================================
+9. ATTENDANCE RULE ENGINE
+====================================================
+
+Office Start Time
+
+09:00 AM
+
+Grace Period
+
+10 Minutes
+
+Late Rule
+
+After 09:10
+
+Half Day
+
+Below 4 Hours
+
+Full Day
+
+8 Hours
+
+Overtime
+
+Above 8 Hours
+
+====================================================
+10. LEAVE MANAGEMENT
+====================================================
+
+Types
+
+Casual
+Sick
+Earned
+Loss Of Pay
+
+Workflow
+
+Employee Apply
+
+Pending
+
+Admin Approve
+
+or
+
+Admin Reject
+
+====================================================
+11. SALARY ENGINE
+====================================================
+
+Never configure employee one by one.
+
+Use Salary Groups.
+
+GROUP A
+
+0-25000
+
+HRA 10%
+DA 5%
+PF 12%
+
+GROUP B
+
+25001-50000
+
+HRA 15%
+DA 8%
+PF 12%
+
+GROUP C
+
+50001+
+
+HRA 20%
+DA 10%
+PF 12%
+
+====================================================
+12. PAYROLL CALCULATION ENGINE
+====================================================
+
+INPUTS
+
+Attendance
+Leave
+Basic Salary
+Salary Group
+
+ALLOWANCES
+
+Basic
+HRA
+DA
+Medical
+Travel
+Bonus
+
+DEDUCTIONS
+
+PF
+ESI
+Professional Tax
+TDS
+
+FORMULA
+
+Gross Salary
+
+= Basic
++ HRA
++ DA
++ Medical
++ Travel
++ Bonus
+
+Net Salary
+
+= Gross Salary
+- PF
+- ESI
+- PT
+- TDS
+
+====================================================
+13. MONTHLY PAYROLL WORKFLOW
+====================================================
+
+Admin
+
+Select Month
+
+Generate Payroll
+
+System
+
+Fetch Attendance
+
+Fetch Leave
+
+Calculate Salary
+
+Generate Payroll
+
+Generate Payslip
+
+====================================================
+14. PAYSLIP ENGINE
+====================================================
+
+Generate PDF
+
+Include
+
+Company Logo
+Employee Name
+Employee Code
+Department
+Month
+Basic
+HRA
+DA
+Deductions
+Net Salary
+
+QR Verification Section
+
+====================================================
+15. EMAIL MODULE
+====================================================
+
+SMTP Settings
+
+Host
+Port
+Username
+Password
+
+Stored In ENV
+
+Features
+
+Send Payslip
+Send All Payslips
+Custom Mail
+Bulk Mail
+
+====================================================
+16. EMAIL AUTOMATION
+====================================================
+
+Payroll Complete
+
+Generate PDF
+
+Attach PDF
+
+Send Email
+
+Update Log
+
+====================================================
+17. DASHBOARD ANALYTICS
+====================================================
+
+ADMIN
+
+Total Employees
+Present Today
+Absent Today
+On Leave
+Payroll Completed
+
+EMPLOYEE
+
+Attendance Summary
+Leave Balance
+Latest Payslip
+
+====================================================
+18. REPORTS
+====================================================
+
+Attendance Report
+Leave Report
+Payroll Report
+Employee Report
+
+Export PDF
+Export Excel
+
+====================================================
+19. AUDIT LOGS
+====================================================
+
+Track
+
+Login
+Attendance
+Leave
+Payroll
+Payslip
+
+====================================================
+20. SECURITY
+====================================================
+
+JWT
+
+Password Hashing
+
+Role Based Access
+
+Protected APIs
+
+Environment Variables
+
+Audit Logs
+
+====================================================
+21. API MODULES
+====================================================
+
+Authentication APIs
+
+Department APIs
+
+Employee APIs
+
+Attendance APIs
+
+Leave APIs
+
+Payroll APIs
+
+Payslip APIs
+
+Dashboard APIs
+
+Reports APIs
+
+====================================================
+22. DEPLOYMENT
+====================================================
+
+GitHub
+
+Frontend
+
+Netlify
+
+Backend
+
+Render
+
+Database
+
+MySQL
+
+====================================================
+23. DEVELOPMENT ORDER
+====================================================
+
+Phase 1
+Authentication
+
+Phase 2
+Departments
+
+Phase 3
+Employees
+
+Phase 4
+Attendance
+
+Phase 5
+Leave
+
+Phase 6
+Salary Rules
+
+Phase 7
+Payroll
+
+Phase 8
+Payslips
+
+Phase 9
+Email
+
+Phase 10
+Dashboard
+
+Phase 11
+Reports
+
+Phase 12
+Audit Logs
+
+Phase 13
+QR Optimization
+
+====================================================
+24. FUTURE ROADMAP
+====================================================
+
+GPS Attendance
+
+Face Recognition
+
+Biometric Device
+
+SMS Gateway
+
+WhatsApp Notifications
+
+Mobile App
+
+Multi Branch
+
+Multi Company
+
+ERP Integration
+
+END

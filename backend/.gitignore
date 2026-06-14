@@ -1,0 +1,43 @@
+# ─── Environment Files ──────────────────────────────────────────────────────
+# Keep .env.example (safe template), ignore actual secrets
+.env
+.env.local
+.env.production
+*.txt  # secret key files
+
+# ─── Python ─────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+
+# ─── Virtual Environments ───────────────────────────────────────────────────
+venv/
+env/
+.venv/
+ENV/
+
+# ─── Django ─────────────────────────────────────────────────────────────────
+db.sqlite3
+db.sqlite3-journal
+*.log
+staticfiles/
+media/
+secure_files/
+
+# ─── Distribution / Packaging ───────────────────────────────────────────────
+.eggs/
+dist/
+build/
+*.egg-info/
+*.egg
+
+# ─── Editor / OS ────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

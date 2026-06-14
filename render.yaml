@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: payroll-backend
+    runtime: python
+    buildCommand: "cd backend && pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate"
+    startCommand: "cd backend && gunicorn payroll_backend.wsgi:application --workers 2 --threads 4 --worker-class gthread --max-requests 100 --max-requests-jitter 10 --timeout 120"
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_HOSTS
+        value: payroll2-mnuo.onrender.com,payroll-backend.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://your-app.netlify.app

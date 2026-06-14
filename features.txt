@@ -1,0 +1,81 @@
+================================================================================
+PROJECT NAME: PayrollPro - Advanced Staff Payroll & Attendance Management System
+================================================================================
+
+1. PROJECT OVERVIEW
+--------------------------------------------------------------------------------
+PayrollPro is a comprehensive, full-stack, enterprise-grade web application designed to automate and streamline employee management, daily attendance tracking, leave requests, and complex monthly payroll calculations. It eliminates manual HR processes by introducing automated salary generation, QR-based attendance, and automated PDF payslip email delivery.
+
+2. TECHNOLOGY STACK
+--------------------------------------------------------------------------------
+* Frontend: React.js, Vite, React Router, Axios, CSS Modules (Responsive Design)
+* Backend: Django 5.0, Django REST Framework (DRF), Python 3.13
+* Database: MySQL (Production via Railway/Aiven) / SQLite (Development)
+* Authentication: JWT (JSON Web Tokens) via SimpleJWT
+* Media & Files: ReportLab (PDF Generation), WhiteNoise (Static File Compression)
+* Emails: Brevo SMTP Relay
+* Deployment: Render (Backend) and Netlify (Frontend)
+
+3. KEY MODULES & FEATURES
+--------------------------------------------------------------------------------
+
+A. AUTHENTICATION & ROLE MANAGEMENT
+- Secure JWT-based authentication with automatic token refresh mechanisms.
+- Role-based Access Control (RBAC):
+  * Admin / HR Role: Full access to system metrics, payroll generation, and leave approvals.
+  * Employee Role: Self-service portal to view attendance, request leaves, and download payslips.
+- Secure login portal with dynamic backend URL routing.
+
+B. EMPLOYEE & DEPARTMENT MANAGEMENT
+- Create and manage hierarchical company departments (Engineering, HR, Sales, etc.).
+- Maintain detailed employee profiles including basic salary, joining date, and contact info.
+- Automatic Employee Code generation.
+- Dynamic employee dashboard with real-time stats.
+
+C. SMART ATTENDANCE & QR SCANNING
+- Secure, cryptographic QR code generation for every registered employee.
+- QR Scanner integration allowing employees to punch in/out securely.
+- Automated Time Tracking: Calculates total working hours per day.
+- Status Calculation: Automatically flags attendance as Present, Late, Half-Day, or Absent based on company time rules.
+
+D. LEAVE MANAGEMENT SYSTEM
+- Employees can request specific leave types (Casual, Sick, Earned, Loss of Pay).
+- Multi-status workflow (Pending, Approved, Rejected, Cancelled).
+- Admins can review, approve, or reject leaves with custom rejection reasons.
+- Approved leaves automatically integrate with the attendance system to prevent salary deductions.
+
+E. DYNAMIC SALARY RULES ENGINE
+- Salary Groups (e.g., Junior, Mid-Level, Senior) defined by minimum/maximum salary brackets.
+- Employees are automatically assigned to the correct tax/benefit bracket.
+- Customizable Allowances: HRA (House Rent), DA (Dearness), Medical, and Travel allowances (Fixed or Percentage).
+- Customizable Deductions: Provident Fund (PF), ESI, Professional Tax (PT), and TDS deductions.
+
+F. AUTOMATED PAYROLL PROCESSING & PDF PAYSLIPS
+- One-click monthly payroll processing for the entire company.
+- The engine calculates gross salary, prorates based on absent days/LOP, applies rules, and calculates Net Pay.
+- Auto-generation of professional, highly-detailed PDF payslips using Python ReportLab.
+- Secure PDF storage mechanism.
+
+G. EMAIL NOTIFICATION SYSTEM
+- Integrated with Brevo SMTP.
+- Automatically sends the generated PDF payslips directly to employee email addresses.
+- System alerts for administrative actions.
+
+H. ADMIN DASHBOARD & ANALYTICS
+- Real-time widgets showing total employees, present today, absent today, employees on leave, pending leave requests, and total payroll processed this month.
+- Intuitive, glassmorphism-inspired dark-mode user interface.
+
+4. SYSTEM SECURITY HIGHLIGHTS
+--------------------------------------------------------------------------------
+- Passwords cryptographically hashed via Django's secure backend.
+- APIs protected by JWT Authentication classes.
+- CSRF protection and strict CORS origin policies.
+- QR Codes are cryptographically signed using HMAC to prevent forgery or buddy-punching.
+
+5. POTENTIAL FUTURE SCOPE (For PPT Conclusion)
+--------------------------------------------------------------------------------
+- AI-based attendance anomaly detection.
+- Biometric (Fingerprint/FaceID) integration for the QR scanner.
+- Automated tax filing report generation for accounting.
+- Mobile App version using React Native.
+================================================================================
